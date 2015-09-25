@@ -1,3 +1,4 @@
+import shutil
 import urllib
 import pandas
 import os.path
@@ -28,12 +29,13 @@ def run():
     :return:
     """
 
-    target_dir = tempfile.mkdtemp()
-    download_data(target_dir=target_dir)
-    csv_file = os.path.join(target_dir, FILE_NAME)
-    df = pandas.DataFrame.from_csv(path=csv_file)
-
-    print(df)
+    try:
+        target_dir = tempfile.mkdtemp()
+        download_data(target_dir=target_dir)
+        csv_file = os.path.join(target_dir, FILE_NAME)
+        df = pandas.DataFrame.from_csv(path=csv_file)
+    finally:
+        shutil.rmtree(target_dir)
 
 
 if __name__=='__main__':
